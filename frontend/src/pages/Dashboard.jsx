@@ -7,6 +7,10 @@ import {
   FaExclamationTriangle,
   FaTruck,
   FaChartLine,
+  FaRoute,
+  FaGasPump,
+  FaTools,
+  FaCalendarAlt,
 } from "react-icons/fa";
 import {
   LineChart,
@@ -25,7 +29,6 @@ import {
 } from "recharts";
 
 const Dashboard = () => {
-  // Sample Data
   const fleetUsageData = [
     { date: "01 Jan", usage: 60 },
     { date: "02 Jan", usage: 75 },
@@ -43,9 +46,9 @@ const Dashboard = () => {
   ];
 
   const vehicleStatusData = [
-    { name: "Active", value: 32, color: "#10B981" },
-    { name: "Idle", value: 10, color: "#FBBF24" },
-    { name: "Maintenance", value: 7, color: "#EF4444" },
+    { name: "Active", value: 32, color: "#22C55E" }, // emerald-500
+    { name: "Idle", value: 10, color: "#FACC15" }, // yellow-400
+    { name: "Maintenance", value: 7, color: "#EF4444" }, // red-500
   ];
 
   const topDrivers = [
@@ -54,167 +57,213 @@ const Dashboard = () => {
     { name: "Mark Lee", trips: 85, distance: "350 km" },
   ];
 
+  const upcomingMaintenance = [
+    { vehicle: "V001", type: "Engine Check", date: "2026-01-10" },
+    { vehicle: "V005", type: "Oil Change", date: "2026-01-12" },
+    { vehicle: "V008", type: "Tire Replacement", date: "2026-01-15" },
+  ];
+
+  const fuelConsumptionData = [
+    { vehicle: "V001", fuel: 60 },
+    { vehicle: "V002", fuel: 45 },
+    { vehicle: "V003", fuel: 70 },
+    { vehicle: "V004", fuel: 55 },
+  ];
+
+  const routeEfficiency = [
+    { route: "Route A", efficiency: 90 },
+    { route: "Route B", efficiency: 75 },
+    { route: "Route C", efficiency: 60 },
+  ];
+
+  const driverPerformance = [
+    { driver: "John Doe", trips: 120, rating: 4.8 },
+    { driver: "Jane Smith", trips: 98, rating: 4.5 },
+    { driver: "Mark Lee", trips: 85, rating: 4.2 },
+  ];
+
+  const upcomingEvents = [
+    { event: "Annual Maintenance", date: "2026-01-20" },
+    { event: "Fleet Audit", date: "2026-01-25" },
+  ];
+
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className="p-6 bg-gray-50 min-h-screen font-sans">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">
-          Fleet Dashboard
-        </h1>
-        <p className="text-gray-600 mt-1">
-          Monitor your fleet, users, sales, and vehicle status in one place.
+        <h1 className="text-3xl font-bold text-gray-900">Fleet Dashboard</h1>
+        <p className="text-gray-600 mt-1 text-sm">
+          Complete fleet monitoring system with analytics, drivers, vehicles, and maintenance.
         </p>
       </div>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-        <Card icon={<FaUsers />} label="Total Users" value="120" bgColor="bg-blue-500" />
-        <Card icon={<FaDollarSign />} label="Total Sales" value="$5,000" bgColor="bg-green-500" />
-        <Card icon={<FaEnvelope />} label="New Messages" value="23" bgColor="bg-yellow-500" />
-        <Card icon={<FaExclamationTriangle />} label="Alerts" value="7" bgColor="bg-red-500" />
-        <Card icon={<FaCar />} label="Active Vehicles" value="32" bgColor="bg-purple-500" />
+        <Card
+          icon={<FaUsers />}
+          label="Total Users"
+          value="120"
+          bgColor="bg-gradient-to-r from-cyan-500 to-blue-500"
+        />
+        <Card
+          icon={<FaDollarSign />}
+          label="Total Sales"
+          value="$5,000"
+          bgColor="bg-gradient-to-r from-green-400 to-green-600"
+        />
+        <Card
+          icon={<FaEnvelope />}
+          label="New Messages"
+          value="23"
+          bgColor="bg-gradient-to-r from-yellow-400 to-yellow-500"
+        />
+        <Card
+          icon={<FaExclamationTriangle />}
+          label="Alerts"
+          value="7"
+          bgColor="bg-gradient-to-r from-red-400 to-red-600"
+        />
+        <Card
+          icon={<FaCar />}
+          label="Active Vehicles"
+          value="32"
+          bgColor="bg-gradient-to-r from-purple-400 to-purple-600"
+        />
       </div>
 
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
-        {/* Fleet Usage Line Chart */}
-        <div className="bg-white rounded-xl shadow p-6">
-          <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-            <FaTruck /> Fleet Usage
-          </h2>
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={fleetUsageData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip />
-                <Line type="monotone" dataKey="usage" stroke="#4F46E5" strokeWidth={3} />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
+        <ChartCard title="Fleet Usage" icon={<FaTruck />}>
+          <ResponsiveContainer width="100%" height={200}>
+            <LineChart data={fleetUsageData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+              <XAxis dataKey="date" stroke="#6B7280" />
+              <YAxis stroke="#6B7280" />
+              <Tooltip contentStyle={{ backgroundColor: "#111827", borderRadius: 8, color: "#fff" }} />
+              <Line type="monotone" dataKey="usage" stroke="#2563EB" strokeWidth={3} />
+            </LineChart>
+          </ResponsiveContainer>
+        </ChartCard>
 
-        {/* Sales Overview Bar Chart */}
-        <div className="bg-white rounded-xl shadow p-6">
-          <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-            <FaChartLine /> Sales Overview
-          </h2>
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={salesData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="sales" fill="#10B981" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
+        <ChartCard title="Sales Overview" icon={<FaChartLine />}>
+          <ResponsiveContainer width="100%" height={200}>
+            <BarChart data={salesData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+              <XAxis dataKey="month" stroke="#6B7280" />
+              <YAxis stroke="#6B7280" />
+              <Tooltip contentStyle={{ backgroundColor: "#111827", borderRadius: 8, color: "#fff" }} />
+              <Legend wrapperStyle={{ color: "#374151" }} />
+              <Bar dataKey="sales" fill="#22C55E" radius={[5, 5, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </ChartCard>
 
-        {/* Vehicle Status Pie Chart */}
-        <div className="bg-white rounded-xl shadow p-6">
-          <h2 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-            Vehicle Status
-          </h2>
-          <div className="h-64 flex items-center justify-center">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={vehicleStatusData}
-                  dataKey="value"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={80}
-                  fill="#8884d8"
-                  label
-                >
-                  {vehicleStatusData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
+        <ChartCard title="Vehicle Status" icon={<FaCar />}>
+          <ResponsiveContainer width="100%" height={200}>
+            <PieChart>
+              <Pie data={vehicleStatusData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label>
+                {vehicleStatusData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.color} />
+                ))}
+              </Pie>
+              <Tooltip contentStyle={{ backgroundColor: "#111827", borderRadius: 8, color: "#fff" }} />
+            </PieChart>
+          </ResponsiveContainer>
+        </ChartCard>
       </div>
 
-      {/* Recent Vehicle Activity Table */}
-      <div className="bg-white rounded-xl shadow p-6 mt-8">
-        <h2 className="text-lg font-bold text-gray-800 mb-4">Recent Vehicle Activity</h2>
-        <div className="overflow-x-auto">
-          <table className="min-w-full table-auto">
-            <thead>
-              <tr className="bg-gray-100 text-left text-gray-600">
-                <th className="px-4 py-2">Vehicle ID</th>
-                <th className="px-4 py-2">Driver</th>
-                <th className="px-4 py-2">Status</th>
-                <th className="px-4 py-2">Last Updated</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[
-                { id: "V001", driver: "John Doe", status: "Active", time: "14:35", color: "green-500" },
-                { id: "V002", driver: "Jane Smith", status: "Idle", time: "14:20", color: "yellow-500" },
-                { id: "V003", driver: "Mark Lee", status: "Maintenance", time: "13:50", color: "red-500" },
-                { id: "V004", driver: "Alice Brown", status: "Active", time: "13:30", color: "green-500" },
-              ].map((v) => (
-                <tr key={v.id} className="border-b hover:bg-gray-50 transition-colors">
-                  <td className="px-4 py-2">{v.id}</td>
-                  <td className="px-4 py-2">{v.driver}</td>
-                  <td className={`px-4 py-2 text-${v.color} font-semibold`}>{v.status}</td>
-                  <td className="px-4 py-2">{v.time}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      {/* Tables Section */}
+      <TableCard
+        title="Recent Vehicle Activity"
+        data={[
+          { vehicle: "V001", driver: "John Doe", status: "Active", lastUpdate: "14:35" },
+          { vehicle: "V002", driver: "Jane Smith", status: "Idle", lastUpdate: "14:20" },
+          { vehicle: "V003", driver: "Mark Lee", status: "Maintenance", lastUpdate: "13:50" },
+          { vehicle: "V004", driver: "Alice Brown", status: "Active", lastUpdate: "13:30" },
+        ]}
+        columns={["vehicle", "driver", "status", "lastUpdate"]}
+      />
+      <TableCard title="Top Drivers" data={topDrivers} columns={["name", "trips", "distance"]} />
+      <TableCard title="Upcoming Maintenance" data={upcomingMaintenance} columns={["vehicle", "type", "date"]} />
+      <ChartCard title="Fuel Consumption" icon={<FaGasPump />}>
+        <ResponsiveContainer width="100%" height={150}>
+          <BarChart data={fuelConsumptionData}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+            <XAxis dataKey="vehicle" stroke="#6B7280" />
+            <YAxis stroke="#6B7280" />
+            <Tooltip contentStyle={{ backgroundColor: "#111827", borderRadius: 8, color: "#fff" }} />
+            <Bar dataKey="fuel" fill="#F59E0B" radius={[5, 5, 0, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
+      </ChartCard>
 
-      {/* Top Drivers */}
-      <div className="bg-white rounded-xl shadow p-6 mt-8">
-        <h2 className="text-lg font-bold text-gray-800 mb-4">Top Drivers</h2>
-        <div className="overflow-x-auto">
-          <table className="min-w-full table-auto">
-            <thead>
-              <tr className="bg-gray-100 text-left text-gray-600">
-                <th className="px-4 py-2">Driver</th>
-                <th className="px-4 py-2">Trips</th>
-                <th className="px-4 py-2">Distance</th>
-              </tr>
-            </thead>
-            <tbody>
-              {topDrivers.map((driver) => (
-                <tr key={driver.name} className="border-b hover:bg-gray-50 transition-colors">
-                  <td className="px-4 py-2">{driver.name}</td>
-                  <td className="px-4 py-2">{driver.trips}</td>
-                  <td className="px-4 py-2">{driver.distance}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <ChartCard title="Route Efficiency" icon={<FaRoute />}>
+        <ResponsiveContainer width="100%" height={150}>
+          <BarChart data={routeEfficiency}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+            <XAxis dataKey="route" stroke="#6B7280" />
+            <YAxis stroke="#6B7280" />
+            <Tooltip contentStyle={{ backgroundColor: "#111827", borderRadius: 8, color: "#fff" }} />
+            <Bar dataKey="efficiency" fill="#3B82F6" radius={[5, 5, 0, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
+      </ChartCard>
+
+      <TableCard title="Driver Performance" data={driverPerformance} columns={["driver", "trips", "rating"]} />
+      <TableCard title="Upcoming Events" data={upcomingEvents} columns={["event", "date"]} />
     </div>
   );
 };
 
 // Card Component
 const Card = ({ icon, label, value, bgColor }) => (
-  <div className="flex items-center p-4 bg-white rounded-xl shadow hover:shadow-lg transition-all relative group">
-    <div className={`p-3 ${bgColor} text-white rounded-full`}>{icon}</div>
+  <div className="flex items-center p-4 bg-white rounded-xl shadow hover:shadow-xl transition-all group">
+    <div className={`p-4 ${bgColor} text-white rounded-full text-xl`}>{icon}</div>
     <div className="ml-4">
       <p className="text-gray-500 text-sm">{label}</p>
-      <p className="text-gray-800 font-bold text-xl">{value}</p>
-    </div>
-    <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 px-3 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity">
-      {label}: {value}
+      <p className="text-gray-900 font-bold text-xl">{value}</p>
     </div>
   </div>
 );
+
+// Chart Card Component
+const ChartCard = ({ title, icon, children }) => (
+  <div className="bg-white rounded-xl shadow p-5 hover:shadow-xl transition-all">
+    <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+      {icon} {title}
+    </h2>
+    <div>{children}</div>
+  </div>
+);
+
+// Table Card Component
+const TableCard = ({ title, data, columns }) => {
+  const allColumns = columns || Object.keys(data[0] || {});
+  return (
+    <div className="bg-white rounded-xl shadow p-5 mt-6 hover:shadow-xl transition-all">
+      <h2 className="text-lg font-bold text-gray-900 mb-4">{title}</h2>
+      <div className="overflow-x-auto">
+        <table className="min-w-full table-auto border-separate border-spacing-0">
+          <thead>
+            <tr className="bg-gray-100 text-left text-gray-600">
+              {allColumns.map((col) => (
+                <th key={col} className="px-4 py-2 border-b">{col.charAt(0).toUpperCase() + col.slice(1)}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((row, i) => (
+              <tr key={i} className="hover:bg-gray-50 transition-colors border-b">
+                {allColumns.map((col) => (
+                  <td key={col} className="px-4 py-2">{row[col]}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
 
 export default Dashboard;
