@@ -1,50 +1,103 @@
 import React, { useState } from "react";
 import {
   FaHome,
-  FaUsers,
   FaCog,
-  FaEnvelope,
   FaChartBar,
   FaBus,
   FaChevronDown,
   FaBars,
+  FaGasPump,
+  FaTools,
+  FaRoute,
+  FaBell,
+  FaCalendarAlt,
+  FaUserTie,
+  FaFileAlt,
 } from "react-icons/fa";
+import { assets } from "../assets/assets";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen, collapsed, setCollapsed }) => {
-  const [reportsOpen, setReportsOpen] = useState(false);
-  const [alertsOpen, setAlertsOpen] = useState(false);
-  const [fleetOpen, setFleetOpen] = useState(false);
+  const [dropdowns, setDropdowns] = useState({
+    reports: false,
+    alerts: false,
+    fleet: false,
+    maintenance: false,
+    drivers: false,
+    analytics: false,
+    routes: false,
+    fuel: false,
+    clients: false,
+    invoices: false,
+    documents: false,
+  });
+
+  const toggleDropdown = (name) => {
+    setDropdowns({ ...dropdowns, [name]: !dropdowns[name] });
+  };
 
   const menuItems = [
     { name: "Overview", icon: <FaHome /> },
+
     {
-      name: "All Reports",
-      icon: <FaChartBar />,
-      dropdown: ["Daily Report", "Weekly Report", "Monthly Report"],
-      open: reportsOpen,
-      toggle: () => setReportsOpen(!reportsOpen),
+      name: "Fleet",
+      icon: <FaBus />,
+      dropdown: ["All Vehicles", "Active Vehicles", "Idle Vehicles", "Vehicle Status"],
+      open: dropdowns.fleet,
+      toggle: () => toggleDropdown("fleet"),
     },
-    { name: "Manage Sub Users", icon: <FaUsers /> },
+
+    {
+      name: "Drivers",
+      icon: <FaUserTie />,
+      dropdown: ["All Drivers", "Driver Performance", "Driver Ratings", "Driver Attendance"],
+      open: dropdowns.drivers,
+      toggle: () => toggleDropdown("drivers"),
+    },
+
+    {
+      name: "Routes",
+      icon: <FaRoute />,
+      dropdown: ["All Routes", "Route Efficiency", "Route History", "Route Alerts"],
+      open: dropdowns.routes,
+      toggle: () => toggleDropdown("routes"),
+    },
+
+    {
+      name: "Fuel",
+      icon: <FaGasPump />,
+      dropdown: ["Fuel Logs", "Fuel Efficiency", "Fuel Alerts", "Fuel Orders"],
+      open: dropdowns.fuel,
+      toggle: () => toggleDropdown("fuel"),
+    },
+
+    {
+      name: "Reports",
+      icon: <FaChartBar />,
+      dropdown: ["Daily Report", "Weekly Report", "Monthly Report", "Custom Report", "Export Reports"],
+      open: dropdowns.reports,
+      toggle: () => toggleDropdown("reports"),
+    },
+
     {
       name: "Alerts",
-      icon: <FaEnvelope />,
-      dropdown: ["Over Speed", "Fuel Low", "Maintenance Due"],
-      open: alertsOpen,
-      toggle: () => setAlertsOpen(!alertsOpen),
+      icon: <FaBell />,
+      dropdown: ["Over Speed", "Fuel Low", "Maintenance Due", "Critical Alerts", "Custom Alerts"],
+      open: dropdowns.alerts,
+      toggle: () => toggleDropdown("alerts"),
     },
+
     {
-      name: "Fleet Reports",
-      icon: <FaBus />,
-      dropdown: ["Active Vehicles", "Idle Vehicles", "Fuel Report"],
-      open: fleetOpen,
-      toggle: () => setFleetOpen(!fleetOpen),
+      name: "Documents Center",
+      icon: <FaFileAlt />,
+      dropdown: ["Fleet Documents", "Driver Logs", "Maintenance Logs"],
+      open: dropdowns.documents,
+      toggle: () => toggleDropdown("documents"),
     },
+
     { name: "Settings", icon: <FaCog /> },
   ];
 
-  // Modern production-ready color palette
   const sidebarBg = "bg-white shadow-lg";
-  const menuText = "text-gray-700";
   const menuHover = "hover:bg-blue-100";
   const menuActive = "bg-blue-200";
 
@@ -66,8 +119,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, collapsed, setCollapsed }) => {
         md:translate-x-0 md:static md:shrink-0`}
       >
         {/* Logo / Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
-          {!collapsed && <span className="text-2xl font-bold text-gray-800">G-Track</span>}
+        <div className="flex items-center justify-between p-5 border-b border-gray-200">
+          {!collapsed && <span className="text-2xl font-bold text-gray-800"><img src={assets.logo} alt="logo" className="w-25 cursor-pointer" /></span>}
           <button
             className="text-gray-400 md:hidden hover:text-gray-600 focus:outline-none text-xl transition-transform hover:scale-110"
             onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -93,9 +146,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, collapsed, setCollapsed }) => {
 
                 {!collapsed && item.dropdown && (
                   <FaChevronDown
-                    className={`transition-transform duration-300 ${
-                      item.open ? "rotate-180" : "rotate-0"
-                    }`}
+                    className={`transition-transform duration-300 ${item.open ? "rotate-180" : "rotate-0"}`}
                   />
                 )}
 
@@ -127,7 +178,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, collapsed, setCollapsed }) => {
         {/* Collapse Button */}
         <div className="mt-auto p-4 border-t border-gray-200">
           <button
-            className="w-full flex items-center justify-center gap-2 py-2 bg-black text-white rounded-lg transition-transform duration-300 hover:scale-105 cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 py-2 bg-cyan-900 text-white rounded-lg transition-transform duration-300 hover:scale-105 cursor-pointer"
             onClick={() => setCollapsed(!collapsed)}
           >
             <FaBars />
