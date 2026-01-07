@@ -119,7 +119,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, collapsed, setCollapsed }) => {
         md:translate-x-0 md:static md:shrink-0`}
       >
         {/* Logo / Header */}
-        <div className="flex items-center justify-between p-5 border-b border-gray-200">
+        <div className="flex items-center justify-between p-4 border-b border-gray-200">
           {!collapsed && <span className="text-2xl font-bold text-gray-800"><img src={assets.logo} alt="logo" className="w-25 cursor-pointer" /></span>}
           <button
             className="text-gray-400 md:hidden hover:text-gray-600 focus:outline-none text-xl transition-transform hover:scale-110"
@@ -134,7 +134,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, collapsed, setCollapsed }) => {
           {menuItems.map((item, index) => (
             <div key={index} className="relative">
               <button
-                className={`group flex items-center justify-between w-full py-3 px-4 rounded-lg transition-all duration-300 focus:outline-none ${
+                className={`group flex items-center justify-between cursor-pointer w-full py-3 px-4 rounded-lg transition-all duration-300 focus:outline-none ${
                   item.open ? menuActive : ""
                 } ${menuHover}`}
                 onClick={item.dropdown ? item.toggle : undefined}
